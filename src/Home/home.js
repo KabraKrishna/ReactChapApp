@@ -3,7 +3,6 @@ import Box from "@mui/material/Box";
 import './home.css';
 import ChatList from "../components/Chat/ChatList";
 import ChatWindow from "../components/Chat/ChatWindow";
-import SideBar from "../components/Chat/SideBar";
 import Avatar from '@mui/material/Avatar';
 import PersonIcon from '@mui/icons-material/Person';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
