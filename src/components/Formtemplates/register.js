@@ -160,7 +160,7 @@ export default function Register() {
                     size="small"
                     name="password"
                     label="Password"
-                    type="text"
+                    type="password"
                     id="password"
                     autoComplete="current-password"
                     error={errorValues['password'] ? true : false}
