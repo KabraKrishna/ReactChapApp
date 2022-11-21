@@ -1,0 +1,9 @@
+.backgroun-image {
+    width: 100%;
+    height: 'auto';
+}
+
+.background-class {
+    background: rgb(255, 255, 255);
+    background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, #85c1c9 100%);
+}

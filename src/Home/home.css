@@ -1,0 +1,21 @@
+.background-class {
+    /* background-color: #0093E9;
+    background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%); */
+    background: rgb(128, 208, 199);
+    background: linear-gradient(3deg, #80d0c7c3 0%, #0093e9 100%);
+    /* color: #ffffff92; */
+}
+
+.chat-window-background {
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.app-logo{
+    width: 60px;
+    height: 'auto';
+}

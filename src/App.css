@@ -1,11 +1,15 @@
 .App {
   text-align: center;
+  /* background-image: linear-gradient(to left, #4facfe 0%, #00f2fe 10%); */
+  background: rgb(255, 255, 255);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, #85c1c9 100%);
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
+
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -32,6 +36,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }

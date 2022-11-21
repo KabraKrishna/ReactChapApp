@@ -3,11 +3,17 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { AuthenticationProvider } from "../src/context/auth";
+import { ChatContextProvider } from './context/chat';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <AuthenticationProvider>
+      <ChatContextProvider>
+        <App />
+      </ChatContextProvider>
+    </AuthenticationProvider>
   </React.StrictMode>
 );
 
