@@ -7,8 +7,7 @@ import {
     getDoc,
     orderBy,
     getDocs,
-    where,
-    startAt
+    where
 } from 'firebase/firestore';
 
 const app = getFirebaseApp();

@@ -16,7 +16,7 @@ import { searchNewUser } from "../../services/firbaseChat";
 
 export default function ChatList() {
 
-    const { userList, setUserList } = useUserList();
+    const { userList } = useUserList();
     const { dispatch } = useChat();
     const [searchParam, setSearchParam] = useState('');
     const [searchedList, setSearchedList] = useState([]);
