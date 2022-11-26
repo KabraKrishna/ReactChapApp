@@ -1,61 +1,39 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-import SearchIcon from '@mui/icons-material/Search';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputAdornment from '@mui/material/InputAdornment';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemButton from "@mui/material/ListItemButton";
-import Avatar from '@mui/material/Avatar';
-import PersonIcon from '@mui/icons-material/Person';
-import Typography from "@mui/material/Typography";
-import { useUserList } from "../../Hooks/useUserList";
-import { useChat } from "../../Hooks/useChat";
-import { searchNewUser } from "../../services/firbaseChat";
+import ListItemText from '@mui/material/ListItemText';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import Collapse from '@mui/material/Collapse';
+import StarsIcon from '@mui/icons-material/Stars';
+import PeopleAltRoundedIcon from '@mui/icons-material/PeopleAltRounded';
+import ListElement from "./ListElement";
+import { useGroup } from "../../Hooks/useGroup";
 
 
 export default function ChatList() {
 
-    const { userList } = useUserList();
-    const { dispatch } = useChat();
-    const [searchParam, setSearchParam] = useState('');
-    const [searchedList, setSearchedList] = useState([]);
+    const { myGroupsData, getMyGroupsFunction, allGroupsData, getAllGroupsFunction } = useGroup();
+    const [isListExpanded, setIsListExpanded] = useState({ listOne: false, listTwo: false });
 
     useEffect(() => {
 
-        async function searchUser(searchParam) {
+        if (isListExpanded.listOne) getMyGroupsFunction().then(() => {  });
+        if (isListExpanded.listTwo) getAllGroupsFunction().then(() => {  });
 
-            const foundUserList = await searchNewUser(searchParam);
-            setSearchedList(foundUserList);
+    }, [isListExpanded])
+
+    const handleExpand = (clickedItem) => {
+
+        const updatedState = {
+            ...isListExpanded,
+            listOne: clickedItem === 1 ? !isListExpanded.listOne : isListExpanded.listOne ? false : isListExpanded.listOne,
+            listTwo: clickedItem === 2 ? !isListExpanded.listTwo : isListExpanded.listTwo ? false : isListExpanded.listTwo
         }
 
-        if (searchParam) {
-            searchUser(searchParam);
-        } else {
-            setSearchedList([]);
-        }
-
-    }, [searchParam]);
-
-    const handleSearchedItemClick = (searchedUser) => {
-
-        console.log('searched: ',searchedUser);
-    }
-
-    const handleListitemClick = (chatUser) => {
-
-        dispatch({
-            type: true,
-            chatId: chatUser.chatId,
-            uid: chatUser.uid,
-            name: chatUser.name
-        })
-    }
-
-    const handleSearch = async (event) => {
-
-        const param = event.target.value;
-        param.length ? setSearchParam(param) : setSearchParam('');
+        setIsListExpanded(updatedState);
     }
 
     return (
@@ -72,151 +50,39 @@ export default function ChatList() {
                     borderRadius: '10px'
                 }}
             >
-                <OutlinedInput
-                    sx={{
-                        mt: 2,
-                        mx: 1,
-                        borderRadius: '32px'
-                    }}
-                    id="search-box"
-                    size="small"
-                    color="primary"
-                    placeholder="Search Here..."
-                    startAdornment={<InputAdornment position="start">
-                        <SearchIcon color="primary" />
-                    </InputAdornment>}
-                    onChange={(e) => { handleSearch(e) }}
-                />
-                {
-                    searchedList.length === 0 ? '' : (
-                        <List dense sx={{ width: '95%', color: '#000', borderBottom: '1px solid #0002' }}>
-                            {searchedList.map((value) => {
-                                return (
-                                    <>
-                                        <ListItem
-                                            key={value.uid}
-                                            disablePadding
-                                            alignItems="flex-start"
-                                        >
-                                            <ListItemButton sx={{ px: 0 }}
-                                                onClick={() => handleSearchedItemClick(value)}
-                                            >
-                                                <Box
-                                                    sx={{
-                                                        width: '100%',
-                                                        mx: 1,
-                                                        mt: 1,
-                                                        display: 'flex',
-                                                        flexDirection: 'row',
-                                                        alignItems: 'center',
-                                                        justifyContent: 'space-evenly',
-                                                    }}
-                                                >
-                                                    <Avatar
-                                                        sx={{
-                                                            width: 30,
-                                                            height: 30,
-                                                            bgcolor: '#000'
-                                                        }}
-                                                        alt={`${value.name}`}
-                                                    >
-                                                        <PersonIcon />
-                                                    </Avatar>
 
-                                                    <Box
-                                                        sx={{
-                                                            display: 'flex',
-                                                            width: '75%',
-                                                            flexDirection: 'column',
-                                                            alignItems: 'flex-start',
-                                                            justifyContent: 'space-between',
-                                                        }}
-                                                    >
-                                                        <Typography variant="string"
-                                                            data-chat-id={value.chatId}
-                                                            sx={{
-                                                                fontSize: 15,
-                                                                color: '#111'
-                                                            }}>{value.name}</Typography>
-                                                        {/* <Typography variant="string"
-                                                    sx={{
-                                                        fontSize: 10,
-                                                        color: '#000'
-                                                    }}>{value.email}</Typography> */}
-                                                    </Box>
-
-                                                </Box>
-                                            </ListItemButton>
-                                        </ListItem>
-                                    </>
-                                );
-                            })}
-                        </List>
-                    )
-                }
                 <List dense sx={{ width: '95%', color: '#000' }}>
-                    {userList.map((value) => {
-                        return (
-                            <>
-                                <ListItem
-                                    key={value.uid}
-                                    disablePadding
-                                    alignItems="flex-start"
-                                >
-                                    <ListItemButton sx={{ px: 0 }}
-                                        onClick={() => handleListitemClick(value)}
-                                    >
-                                        <Box
-                                            sx={{
-                                                width: '100%',
-                                                mx: 1,
-                                                mt: 1,
-                                                display: 'flex',
-                                                flexDirection: 'row',
-                                                alignItems: 'center',
-                                                justifyContent: 'space-evenly',
-                                            }}
-                                        >
-                                            <Avatar
-                                                sx={{
-                                                    width: 30,
-                                                    height: 30,
-                                                    bgcolor: '#000'
-                                                }}
-                                                alt={`${value.name}`}
-                                            >
-                                                <PersonIcon />
-                                            </Avatar>
+                    <ListItemButton onClick={() => { handleExpand(1); }} >
+                        <ListItemIcon>
+                            <StarsIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="My Groups" />
+                        {isListExpanded.listOne ? <ExpandLess /> : <ExpandMore />}
+                    </ListItemButton>
+                    <Collapse in={isListExpanded.listOne} timeout="auto" unmountOnExit>
+                        <List component="div" disablePadding>
+                            {myGroupsData.length ? myGroupsData.map((value) => {
+                                return (<><ListElement listEntry={value} isMyGroup={true} /></>);
+                            }) : ''}
+                        </List>
+                    </Collapse>
 
-                                            <Box
-                                                sx={{
-                                                    display: 'flex',
-                                                    width: '75%',
-                                                    flexDirection: 'column',
-                                                    alignItems: 'flex-start',
-                                                    justifyContent: 'space-between',
-                                                }}
-                                            >
-                                                <Typography variant="string"
-                                                    data-chat-id={value.chatId}
-                                                    sx={{
-                                                        fontSize: 15,
-                                                        color: '#111'
-                                                    }}>{value.name}</Typography>
-                                                {/* <Typography variant="string"
-                                                    sx={{
-                                                        fontSize: 10,
-                                                        color: '#000'
-                                                    }}>{value.email}</Typography> */}
-                                            </Box>
-
-                                        </Box>
-                                    </ListItemButton>
-                                </ListItem>
-                            </>
-                        );
-                    })}
+                    <ListItemButton onClick={() => { handleExpand(2); }} sx={{ borderTop: '1px solid #0002' }}>
+                        <ListItemIcon>
+                            <PeopleAltRoundedIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="All Groups" />
+                        {isListExpanded.listTwo ? <ExpandLess /> : <ExpandMore />}
+                    </ListItemButton>
+                    <Collapse in={isListExpanded.listTwo} timeout="auto" unmountOnExit>
+                        <List component="div" disablePadding>
+                            {allGroupsData.length ? allGroupsData.map((value) => {
+                                return (<><ListElement listEntry={value} isMyGroup={false} /></>);
+                            }) : ''}
+                        </List>
+                    </Collapse>
                 </List>
+
             </Box>
         </>
     );

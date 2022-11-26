@@ -7,7 +7,6 @@ export function useAuthentication() {
 
     if(!contextValue) {
 
-        console.log("No value...!");
     }
 
     return contextValue;

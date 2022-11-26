@@ -11,22 +11,27 @@ import {
     doc,
     serverTimestamp,
     getFirestore,
+    getDoc,
 } from 'firebase/firestore';
+import { FIREBASE_CONFIG, USERS_COLLECTION } from "../Constants";
 
-const firebaseConfig = {
-    apiKey: "AIzaSyBam2dZw9XIZfcKbZk1B6z4U4ybQ_HeuhI",
-    authDomain: "mychat-55ca4.firebaseapp.com",
-    projectId: "mychat-55ca4",
-    storageBucket: "mychat-55ca4.appspot.com",
-    messagingSenderId: "942641481739",
-    appId: "1:942641481739:web:8799851e75310a38b9df0e"
-}
-
-const firebaseApp = initializeApp(firebaseConfig);
+const firebaseApp = initializeApp(FIREBASE_CONFIG);
 const fireStoreDb = getFirestore(firebaseApp);
 
 export function getFirebaseApp() {
     return firebaseApp;
+}
+
+export async function getUserDetails(uid) {
+
+    const userRef = await getDoc(doc(fireStoreDb, USERS_COLLECTION, uid));
+    const user = userRef.data();
+
+    return {
+        uid,
+        name: user.name,
+        email: user.email
+    }
 }
 
 export async function userSignIn(email, password) {
@@ -37,11 +42,12 @@ export async function userSignIn(email, password) {
 
         const response = await signInWithEmailAndPassword(auth, email, password);
 
+
+        const userDetails = await getUserDetails(response.user.uid);
+
         return { 
             error: false,
-            uid: response.user.uid,
-            name: response.user.displayName,
-            email: response.user.email
+            userDetails
         };
 
     } catch (error) {
@@ -63,20 +69,22 @@ export async function userSignUp(fullname, email, password) {
 
         const response = await createUserWithEmailAndPassword(auth, email, password);
 
-        await setDoc(doc(fireStoreDb, 'USERS', response.user.uid), {
+
+        await setDoc(doc(fireStoreDb, USERS_COLLECTION, response.user.uid), {
             name: fullname,
             email: response.user.email,
             uid: response.user.uid,
             photoURL: response.user.photoURL || '',
-            myChats: [],
+            myGroups: [],
+            pendingRequests: [],
             timestamp: serverTimestamp(),
         });
 
+        const userDetails = await getUserDetails(response.user.uid);
+
         return {
             error: false,
-            uid: response.user.uid,
-            name: fullname,
-            email: response.user.email,
+            userDetails
         }
 
     } catch (error) {
@@ -101,20 +109,22 @@ export async function googleSignIn() {
 
         const { user } = await signInWithPopup(auth, provider);
 
-        await setDoc(doc(fireStoreDb, 'USERS', user.uid), {
+
+        await setDoc(doc(fireStoreDb, USERS_COLLECTION, user.uid), {
             name: user.displayName,
             email: user.email,
             photoURL: user.photoURL,
             uid: user.uid,
-            myChats: [],
+            myGroups: [],
+            pendingRequests: [],
             timestamp: serverTimestamp(),
         });
 
+        const userDetails = await getUserDetails(user.uid);
+
         return {
             error: false,
-            uid: user.uid,
-            name: user.displayName,
-            email: user.email
+            userDetails
         };
 
     } catch (error) {

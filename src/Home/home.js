@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import './home.css';
 import ChatList from "../components/Chat/ChatList";
 import ChatWindow from "../components/Chat/ChatWindow";
+import ChatSideBar from "../components/Chat/ChatSideBar";
 import Avatar from '@mui/material/Avatar';
 import PersonIcon from '@mui/icons-material/Person';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
@@ -42,7 +43,6 @@ export default function Home() {
                 <Box
                     sx={{
                         width: '17%',
-                        height: '85%',
                         display: 'flex',
                         flexDirection: 'row',
                         alignItems: 'center',
@@ -138,7 +138,7 @@ export default function Home() {
             <Box
                 sx={{
                     width: '90%',
-                    height: '89%',
+                    height: '80vh',
                     background: '#0001',
                     color: '#fff',
                     display: 'flex',
@@ -150,6 +150,7 @@ export default function Home() {
             >
                 <ChatList />
                 <ChatWindow />
+                <ChatSideBar />
 
             </Box>
 

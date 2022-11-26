@@ -31,9 +31,8 @@ export default function Login() {
         let name = event.target.name;
         let value = event.target.value;
 
-        const { errors, isValid } = formValidator(errorValues, name, value);
+        const { errors } = formValidator(errorValues, name, value, setIsFormValid);
 
-        setIsFormValid(isValid);
         setErrorValues(errors);
     }
 
@@ -57,10 +56,13 @@ export default function Login() {
 
         event.preventDefault();
 
+        let emailElement = document.getElementsByName('loginEmail')[0];
+        let passwordElelemnt = document.getElementsByName('loginPassword')[0];
+
         let formValues = {
             ...defaultValue,
-            email: event.target[0].value,
-            password: event.target[2].value
+            email: emailElement.value,
+            password: passwordElelemnt.value
         };
 
         let errors = { ...errorValues };
@@ -96,11 +98,15 @@ export default function Login() {
 
                 toggleBackDrop(false);
                 setAuthError(resp.errorMessage);
+
             } else {
+
+                emailElement.value = '';
+                passwordElelemnt.value = '';
 
                 setAuthError(null);
                 toggleBackDrop(false);
-                navigate("/home")
+                navigate("/")
             }
         }
 
@@ -118,7 +124,7 @@ export default function Login() {
             {
                 authError ? (<Alert severity="error" sx={{ width: '100%' }}>{authError}</Alert>) : ''
             }
-            <Box component="form" onSubmit={handleSignIn} noValidate>
+            <Box noValidate>
                 <TextField
                     margin="normal"
                     required
@@ -126,7 +132,7 @@ export default function Login() {
                     size="small"
                     id="email"
                     label="Email"
-                    name="email"
+                    name="loginEmail"
                     onChange={(e) => { handleValueChange(e) }}
                     error={errorValues['email'] ? true : false}
                     helperText={errorValues['email']}
@@ -137,7 +143,7 @@ export default function Login() {
                     required
                     fullWidth
                     size="small"
-                    name="password"
+                    name="loginPassword"
                     label="Password"
                     type="password"
                     id="password"
@@ -152,8 +158,9 @@ export default function Login() {
                             fullWidth
                             variant="contained"
                             size="medium"
-                            type="submit"
+                            type="button"
                             sx={{ mt: 2, mb: 2 }}
+                            onClick={(e)=> {handleSignIn(e)}}
                         >
                             Sign In
                         </Button>

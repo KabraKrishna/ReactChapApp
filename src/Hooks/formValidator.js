@@ -1,4 +1,4 @@
-export default function formValidator(errorValues, name, value) {
+export default function formValidator(errorValues, name, value, validCallback) {
 
     let errors = {...errorValues};
 
@@ -12,11 +12,11 @@ export default function formValidator(errorValues, name, value) {
 
         case 'fullname':
 
-            if (value.length <= 3 || value.length > 50) {
+            if (value.length <= 3 || value.length > 68) {
 
                 errors = {
                     ...errors,
-                    fullname: 'Full Name should be between 3 to 50 characters'
+                    fullname: 'Full Name should be between 3 to 68 characters'
                 }
 
                 isValid = false;
@@ -55,7 +55,7 @@ export default function formValidator(errorValues, name, value) {
 
                 errors = {
                     ...errors,
-                    password: 'Password should be 8-23 character long. Atleast: 1 uppercase, 1 lowercase, 1 number, 1 special character.'
+                    password: 'Password should be 8-32 character long. Atleast: 1 uppercase, 1 lowercase, 1 number, 1 special character.'
                 }
 
                 isValid = false;
@@ -68,5 +68,7 @@ export default function formValidator(errorValues, name, value) {
             break;
     }
 
-    return { errors, isValid };
+    validCallback(isValid);
+
+    return { errors };
 }

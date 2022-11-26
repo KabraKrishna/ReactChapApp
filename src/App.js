@@ -17,6 +17,7 @@ function App() {
   const { loggedInUser } = useAuthentication();
 
   const RestrictedRoute = ({ children }) => {
+    
     if (!loggedInUser) return <Navigate to="/login" />
 
     return children;
@@ -31,6 +32,9 @@ function App() {
             <Route path="/">
               <Route index element={<RestrictedRoute><Home /></RestrictedRoute>} />
             </Route>
+            {/* <Route path="/">
+              <Route index element={<Home />} />
+            </Route> */}
             <Route path="/home">
               <Route index element={<RestrictedRoute><Home /></RestrictedRoute>} />
             </Route>

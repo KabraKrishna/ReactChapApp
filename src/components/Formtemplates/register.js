@@ -9,7 +9,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 import formValidator from '../../Hooks/formValidator';
 import { useAuthentication } from "../../Hooks/useAuthentication";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, redirect } from "react-router-dom";
 
 export default function Register() {
 
@@ -45,15 +45,13 @@ export default function Register() {
         let name = event.target.name;
         let value = event.target.value;
 
-        const { errors, isValid } = formValidator(errorValues, name, value);
-
-        setIsFormValid(isValid);
+        const { errors } = formValidator(errorValues, name, value, setIsFormValid);
 
         setErrorValues(errors);
 
     }
 
-    const handleSignUp = (event) => {
+    const handleSignUp = async (event) => {
 
         event.preventDefault();
 
@@ -65,8 +63,6 @@ export default function Register() {
         };
 
         let errors = { ...errorValues };
-
-        toggleBackDrop(true);
 
         if (!isFormValid) {
 
@@ -99,18 +95,23 @@ export default function Register() {
 
             toggleBackDrop(true);
 
-            const resp = signUp(formValues.fullname, formValues.email, formValues.password);
+            signUp(formValues.fullname, formValues.email, formValues.password)
+                .then((resp) => {
 
-            if (resp.error) {
 
-                toggleBackDrop(false);
-                setAuthError(resp.errorMessage);
-            } else {
+                    if (resp && resp.error) {
 
-                setAuthError(null);
-                toggleBackDrop(false);
-                pageNavigate("/home");
-            }
+                        toggleBackDrop(false);
+                        setAuthError(resp.errorMessage);
+                    } else {
+
+                        setAuthError(null);
+                        toggleBackDrop(false);
+                        pageNavigate("/home");
+                    }
+
+                })
+
         }
 
     }

@@ -11,6 +11,7 @@ export default function ChatMessage({ isSender, data }) {
         return (
             <>
                 <Box
+                    key={message.from.uid}
                     sx={{
                         display: 'flex',
                         width: '100%',
@@ -34,7 +35,7 @@ export default function ChatMessage({ isSender, data }) {
                                 fontSize: 12,
                                 fontWeight:'bold',
                                 color: '#ddd'
-                            }}>{message.from.name}</Typography>
+                            }}>You</Typography>
                         <Avatar
                             sx={{
                                 width: 25,
@@ -44,9 +45,6 @@ export default function ChatMessage({ isSender, data }) {
                             }}>
                                 <PersonIcon />
                             </Avatar>
-
-
-
                     </Box>
                     <Box
                         sx={{
@@ -90,6 +88,7 @@ export default function ChatMessage({ isSender, data }) {
         return (
             <>
                 <Box
+                    key={message.from.uid}
                     sx={{
                         display: 'flex',
                         flexDirection: 'column',
