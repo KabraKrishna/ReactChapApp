@@ -5,13 +5,10 @@ import IconButton from '@mui/material/IconButton';
 import SendIcon from '@mui/icons-material/Send';
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
-import PersonIcon from '@mui/icons-material/Person';
 import ChatMessage from "./ChatMessage";
-import { useChat } from "../../Hooks/useChat";
 import { useAuthentication } from "../../Hooks/useAuthentication";
 import './ChatWindow.css';
 import { useGroup } from "../../Hooks/useGroup";
-//import { FETCH_SELECTED_GROUP_CHAT } from "../../Constants";
 
 export default function ChatWindow() {
 
@@ -25,7 +22,7 @@ export default function ChatWindow() {
             getSelectedGroupFunction(currentState.groupId).then(() => { setIscallComplete(true);})
         }
 
-    }, [currentState])
+    }, [currentState, getSelectedGroupFunction])
 
     const stringToColor = (inpt) => {
         let hash = 0;

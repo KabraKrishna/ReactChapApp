@@ -23,7 +23,7 @@ export default function ChatList() {
         if (isListExpanded.listOne) getMyGroupsFunction().then(() => {  });
         if (isListExpanded.listTwo) getAllGroupsFunction().then(() => {  });
 
-    }, [isListExpanded])
+    }, [isListExpanded, getMyGroupsFunction, getAllGroupsFunction])
 
     const handleExpand = (clickedItem) => {
 

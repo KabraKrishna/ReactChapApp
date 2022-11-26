@@ -31,7 +31,7 @@ export function useChat() {
                     console.log("Error in useChat: ", error);
                 });
         }
-    }, [currentState]);
+    }, [currentState, dispatch]);
 
     return { currentState, dispatch, currentChatData };
 }

@@ -150,11 +150,6 @@ export async function getSelectedGroup(groupId, callback) {
     );
 }
 
-export function deleteGroup(groupId) {
-
-    const groupQueryRef = query(collection(db, GROUPS_COLLECTION, groupId));
-}
-
 export async function sendMessage(groupId, messageObject) {
 
     const dbQueryRef = query(collection(db, GROUPS_COLLECTION, groupId, 'MESSAGES'));
@@ -174,13 +169,6 @@ export async function sendMessage(groupId, messageObject) {
     }
 }
 
-export async function deleteMessage(groupId, messageId) {
-
-    const docRef = doc(db, GROUPS_COLLECTION, groupId, 'MESSAGES', messageId);
-
-    const resp = await deleteDoc(doc);
-
-}
 
 export async function getAllGroups(uid, callback) {
 

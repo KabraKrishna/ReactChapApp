@@ -1,5 +1,4 @@
-import { useContext, useEffect, useState } from "react";
-import { FETCH_SELECTED_GROUP_CHAT } from "../Constants";
+import { useContext, useState } from "react";
 import { ChatContext } from "../context/chat";
 import { 
     createNewChatGroup, 

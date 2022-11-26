@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -19,7 +19,6 @@ export default function NewGroupForm() {
 
     const [selectedmemberList, setSelectedMemberList] = useState([]);
     const [isFormHidden, setIsFormHidden] = useState(true);
-    //const [groupNameError, setGroupNameError] = useState(null);
 
     const { loggedInUser } = useAuthentication();
     const { allUserList } = useAllUserList();
